@@ -4,6 +4,7 @@ import 'package:z_core/ex1/model/res/res_login.model.dart';
 import 'package:z_core/ex1/model/res/res_register.model.dart';
 import 'package:z_core/ex1/repository/ex1_repo.dart';
 import 'package:z_core/helper/app_config.dart';
+import 'package:z_core/helper/resource_enpoint.dart';
 import 'package:z_core/zcore/gateway2/api_gateway2.dart';
 import 'package:z_core/zcore/gateway2/app_gateway2.dart';
 
@@ -16,7 +17,8 @@ class RegisterRepo extends EX1Repository {
     //     method: HTTPMethod.post,
     //     params: request.toJson());
     final api = AppGateway2(
-        endpoint: "api/register",
+        endpoint: resourceRegister(),
+        // endpoint: "api/register",
         prefix: getBaseUrl(),
         method: HTTPMethod.post,
         data: request.toJson());
