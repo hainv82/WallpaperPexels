@@ -6,7 +6,8 @@ import 'package:z_core/zcore/lib/di/di_module.dart';
 
 void main() {
   // Iterable<DIModule> modules=const[];
-  runApp(Main2());
+  // runApp(const HomeContent());
+  runApp(const MainContent());
   // runApp(MainContent());
 
 }

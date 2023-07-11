@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:z_core/zcore/gateway2/custom_interceptor.dart';
 
-import '../lib/exception/network_exception.dart';
-import '../lib/exception/sample_error.dart';
+import 'package:z_core/zcore/lib/exception/network_exception.dart';
+import 'package:z_core/zcore/lib/exception/sample_error.dart';
 
 enum HTTPMethod { get, post, put, delete, patch }
 

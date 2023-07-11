@@ -47,6 +47,11 @@ dependencies:
   bloc: ^8.0.3
   flutter_bloc: ^8.0.1
   copy_with_extension_gen: ^4.0.1
+  image_downloader: ^0.31.0
+  file: ^6.1.4
+#  async_wallpaper: ^2.0.2
+##  wallpaper_manager: ^1.0.10
+#  flutter_cache_manager: ^3.3.0
 
 dev_dependencies:
   flutter_test:

@@ -10,7 +10,7 @@ class EX1State extends Equatable{
   final String id;
 
 
-  EX1State({required this.tokenResgis, required this.tokenLog, required this.id});
+  const EX1State({required this.tokenResgis, required this.tokenLog, required this.id});
 
   @override
   // TODO: implement props

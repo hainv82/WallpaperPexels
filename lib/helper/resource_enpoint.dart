@@ -1,3 +1,10 @@
 String resourceListUser() =>'api/users';
 String resourceRegister()=>'api/register';
 String resourceLogin()=>'api/login';
+
+String ePointSuggestion() => 'en-us/api/v3/search/suggestions/mobile%20wallpaper';
+String ePointTrending() => 'en-us/api/v3/search/trending';
+String ePointDiscover() => '_next/data/3tggAsXD3erep9Ls4X5OS/en-US/discover.json';
+
+
+String ePointTrend()=>'pexel/trend.json';
