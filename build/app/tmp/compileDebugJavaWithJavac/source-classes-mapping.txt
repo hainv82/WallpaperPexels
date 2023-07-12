@@ -1,0 +1,6 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+com/zcr/z_core/MainActivity.java
+ com.zcr.z_core.MainActivity
+com/zcr/z_core/BuildConfig.java
+ com.zcr.z_core.BuildConfig

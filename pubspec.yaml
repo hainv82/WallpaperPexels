@@ -39,7 +39,7 @@ dependencies:
   json_serializable: 'any'
   build_runner: 'any'
   equatable: ^2.0.3
-  alice: ^0.2.5
+#  alice: ^0.2.5
   exception_templates: ^0.2.1
   shared_preferences: ^2.0.13
   connectivity_plus: ^2.3.0
@@ -49,9 +49,8 @@ dependencies:
   copy_with_extension_gen: ^4.0.1
   image_downloader: ^0.31.0
   file: ^6.1.4
-#  async_wallpaper: ^2.0.2
-##  wallpaper_manager: ^1.0.10
-#  flutter_cache_manager: ^3.3.0
+  async_wallpaper: ^2.0.2
+  flutter_cache_manager: ^3.3.0
 
 dev_dependencies:
   flutter_test:

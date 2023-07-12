@@ -1,10 +1,11 @@
 import 'dart:developer';
 
+import 'package:async_wallpaper/async_wallpaper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_downloader/image_downloader.dart';
 import 'package:z_core/pexels/view/async_wallpaper.dart';
-import 'package:z_core/pexels/view/set_wallpaper.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class ViewImage extends StatefulWidget {
   final String uri;
@@ -20,17 +21,29 @@ class ViewImage extends StatefulWidget {
 }
 
 class _ViewImageState extends State<ViewImage> {
+  late bool goToHome;
+  String _platformVersion = 'Unknown';
+
   @override
   Widget build(BuildContext context) {
-    final PageController controller = PageController();
-    final listPage=widget.listUri.map((e) => Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Image.network(
-        e,
-        fit: BoxFit.cover,
-      )
-    )).toList();
+    var uriCurrent = '';
+    final PageController controller = PageController(initialPage: widget.index);
+    final listPage = widget.listUri
+        .map((e) =>
+        Container(
+            height: MediaQuery
+                .of(context)
+                .size
+                .height,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
+            child: Image.network(
+              e,
+              fit: BoxFit.cover,
+            )))
+        .toList();
     // return PageView(
     //   /// [PageView.scrollDirection] defaults to [Axis.horizontal].
     //   /// Use [Axis.vertical] to scroll vertically.
@@ -42,68 +55,56 @@ class _ViewImageState extends State<ViewImage> {
       body: Stack(
         children: [
           GestureDetector(
-            onTap: (){
-              ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            },
-            child:
-            PageView(
-                /// [PageView.scrollDirection] defaults to [Axis.horizontal].
-                /// Use [Axis.vertical] to scroll vertically.
-                controller: controller,
-                children: listPage,
-              )
-              // Container(
-            //   height: MediaQuery.of(context).size.height,
-            //   width: MediaQuery.of(context).size.width,
-            //   // decoration: BoxDecoration(
-            //   //   image: DecorationImage(
-            //   //     image: AssetImage("assets/images/bulb.jpg"),
-            //   //     fit: BoxFit.cover,
-            //   //   ),
-            //   // ),
-            //   child: Image.network(
-            //     widget.uri,
-            //     fit: BoxFit.cover,
-            //   ) /* add child content here */,
-            // ),
+              onTap: () {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              },
+              child:
+              PageView.builder(
+                  controller: controller,
+                  itemCount: listPage.length,
+
+                  itemBuilder: (context, index) {
+                    uriCurrent=widget.listUri[index];
+                    return listPage[index];
+                  })
+            // PageView(
+            //   controller: controller,
+            //   children: listPage,
+            // )
           ),
-          GestureDetector(
-            onTap: () async {
-              // Navigator.push(context, MaterialPageRoute(builder: (context)=> const SyncWallpaper()));
-              // Navigator.push(context, MaterialPageRoute(builder: (context)=> SetWallPage()));
-              log('--download');
-              // Navigator.push(context, MaterialPageRoute(builder: (context)=> DownloadPage()));
-
-              // _downloadImage(url: widget.uri);
-
-              // try {
-              //   // Saved with this method.
-              //   var imageId = await ImageDownloader.downloadImage("https://raw.githubusercontent.com/wiki/ko2ic/image_downloader/images/flutter.png");
-              //   if (imageId == null) {
-              //     return;
-              //   }
-              //
-              //   // Below is a method of obtaining saved image information.
-              //   var fileName = await ImageDownloader.findName(imageId);
-              //   var path = await ImageDownloader.findPath(imageId);
-              //   var size = await ImageDownloader.findByteSize(imageId);
-              //   var mimeType = await ImageDownloader.findMimeType(imageId);
-              // } on PlatformException catch (error) {
-              //   print(error);
-              // }
-            },
-            child: Container(
-                alignment: Alignment.bottomCenter,
-                child: const Icon(
-                  Icons.download_for_offline_outlined,
-                  color: Colors.white,
-                  size: 60,
-                )),
-          )
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: GestureDetector(onTap: () {
+                    _downloadImage(url: uriCurrent);
+                    // log('---controller: ${controller.}')
+                  },
+                      child: const Icon(Icons.download_for_offline, size: 48,
+                        color: Colors.white,)),
+                ),
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: GestureDetector(
+                    onTap: (){
+                      setWallpaperHome(url: uriCurrent, goHome: false);
+                    },
+                    child: const Icon(Icons.settings_applications_outlined, size: 48,
+                      color: Colors.white,),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
   }
+
   // Future<Null> _setWallpaer() async {
   //   String setWallpaper;
   //   try {
@@ -130,11 +131,33 @@ class _ViewImageState extends State<ViewImage> {
       ),
     );
     super.initState();
+    goToHome = false;
+    initPlatformState();
+
     ImageDownloader.callback(onProgressUpdate: (String? imageId, int progress) {
       log('---%download: $progress');
       progress == 100
           ? ScaffoldMessenger.of(context).showSnackBar(snackBar)
           : '';
+    });
+  }
+  Future<void> initPlatformState() async {
+    String platformVersion;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    // We also handle the message potentially returning null.
+    try {
+      platformVersion = await AsyncWallpaper.platformVersion ?? 'Unknown platform version';
+    } on PlatformException {
+      platformVersion = 'Failed to get platform version.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _platformVersion = platformVersion;
     });
   }
 }
@@ -197,6 +220,36 @@ class _ViewImageState extends State<ViewImage> {
 //     );
 //   }
 // }
+Future<void> setWallpaperHome({required String url, required bool goHome}) async {
+  // setState(() {
+  //   _wallpaperUrlHome = 'Loading';
+  // });
+  String result;
+  // Platform messages may fail, so we use a try/catch PlatformException.
+  try {
+    result = await AsyncWallpaper.setWallpaper(
+      url: url,
+      wallpaperLocation: AsyncWallpaper.HOME_SCREEN,
+      goToHome: goHome,
+      toastDetails: ToastDetails.success(),
+      errorToastDetails: ToastDetails.error(),
+    )
+        ? 'Wallpaper set'
+        : 'Failed to get wallpaper.';
+  } on PlatformException {
+    result = 'Failed to get wallpaper.';
+  }
+
+  // If the widget was removed from the tree while the asynchronous platform
+  // message was in flight, we want to discard the reply rather than calling
+  // setState to update our non-existent appearance.
+  // if (!mounted) return;
+
+  // setState(() {
+  //   _wallpaperUrlHome = result;
+  // });
+}
+
 
 Future<void> _downloadImage({
   required String url,
@@ -213,7 +266,7 @@ Future<void> _downloadImage({
 
     if (whenError) {
       imageId = await ImageDownloader.downloadImage(url,
-              outputMimeType: outputMimeType)
+          outputMimeType: outputMimeType)
           .catchError((error) {
         if (error is PlatformException) {
           String? path = "";

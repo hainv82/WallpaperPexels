@@ -8,3 +8,6 @@ String ePointDiscover() => '_next/data/3tggAsXD3erep9Ls4X5OS/en-US/discover.json
 
 
 String ePointTrend()=>'pexel/trend.json';
+String ePointTop()=>'pexel/top.json';
+String ePointChallenge() => 'pexel/challenge.json';
+String ePointDiscoverHost() => 'pexel/discover.json';

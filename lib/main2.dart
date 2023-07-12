@@ -15,7 +15,7 @@ class Main2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocProvider<PixelBloc>(
       create: (context) {
-        final initialState =  PixelState(slugEng: '');
+        final initialState =  PixelState(slugEng: '', title: '');
         return PixelBloc(initialState);
       },
       child: const MaterialApp(home: HomePage()));

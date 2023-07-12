@@ -1,0 +1,28 @@
+R_DEF: Internal format may change without notice
+local
+string about
+string add_path
+string add_video_file_path
+string app_name
+string applications_settings
+string apply
+string cancel
+string choose_video_file
+string disable
+string enable
+string hide
+string hide_icon_from_launcher
+string ok
+string path
+string play_video_with_sound
+string preference_hide_icon_from_launcher
+string preference_play_video_with_sound
+string preference_version_name
+string settings
+string show
+string update_log
+string update_log_context
+string version
+string version_name
+string wallpaper_settings
+xml livewallpaper

@@ -73,6 +73,7 @@ class _$EX1StateCWProxyImpl implements _$EX1StateCWProxy {
 }
 
 extension $EX1StateCopyWith on EX1State {
-  /// Returns a callable class that can be used as follows: `instanceOfclass EX1State extends Equatable.name.copyWith(...)` or like so:`instanceOfclass EX1State extends Equatable.name.copyWith.fieldName(...)`.
+  /// Returns a callable class that can be used as follows: `instanceOfEX1State.copyWith(...)` or like so:`instanceOfEX1State.copyWith.fieldName(...)`.
+  // ignore: library_private_types_in_public_api
   _$EX1StateCWProxy get copyWith => _$EX1StateCWProxyImpl(this);
 }

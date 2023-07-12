@@ -1,5 +1,6 @@
 import 'package:z_core/helper/app_config.dart';
 import 'package:z_core/helper/resource_enpoint.dart';
+import 'package:z_core/pexels/model/res/data_image_host.model.dart';
 import 'package:z_core/pexels/model/res/discover_data.model.dart';
 import 'package:z_core/pexels/model/res/trend/data_trend.model.dart';
 import 'package:z_core/pexels/repository/pixel_repo.dart';
@@ -7,7 +8,6 @@ import 'package:z_core/zcore/gateway2/api_gateway2.dart';
 import 'package:z_core/zcore/gateway2/app_gateway2.dart';
 import 'dart:convert';
 
-import '../model/res/trend/data_trend_host.model.dart';
 
 class PixelRepoImpl extends PixelRepository {
   @override
@@ -38,12 +38,36 @@ class PixelRepoImpl extends PixelRepository {
   }
 
   @override
-  Future<DataTrendHost> getImgTrend() async {
+  Future<DataImageHost> getImgTrend() async {
     final api=AppGateway2(endpoint: ePointTrend(), prefix: baseHost(), method: HTTPMethod.get);
     var res=await api.execute();
     // final list=(res.data as Map<String, dynamic>)["listTrend"] as List;
-    final data=DataTrendHost.fromJson(res.data);
+    final data=DataImageHost.fromJson(res.data);
     return data;
 
+  }
+
+  @override
+  Future<DataImageHost> getImgChallenge() async {
+    final api=AppGateway2(endpoint: ePointChallenge(), prefix: baseHost(), method: HTTPMethod.get);
+    var res=await api.execute();
+    final data=DataImageHost.fromJson(res.data);
+    return data;
+  }
+
+  @override
+  Future<DataImageHost> getImgDiscover() async {
+    final api=AppGateway2(endpoint: ePointDiscoverHost(), prefix: baseHost(), method: HTTPMethod.get);
+    var res=await api.execute();
+    final data=DataImageHost.fromJson(res.data);
+    return data;
+  }
+
+  @override
+  Future<DataImageHost> getImgTop() async {
+    final api=AppGateway2(endpoint: ePointTop(), prefix: baseHost(), method: HTTPMethod.get);
+    var res=await api.execute();
+    final data=DataImageHost.fromJson(res.data);
+    return data;
   }
 }
