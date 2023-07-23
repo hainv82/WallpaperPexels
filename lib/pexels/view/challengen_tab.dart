@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ChallengeTab extends StatefulWidget {
-  const ChallengeTab({Key? key}) : super(key: key);
+  final List<String>? listImg;
+  const ChallengeTab({Key? key, required this.listImg}) : super(key: key);
 
   @override
   State<ChallengeTab> createState() => _ChallengeTabState();

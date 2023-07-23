@@ -266,6 +266,18 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_modular",
+      "rootUri": "file:///C:/Users/HaiNguyen/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_modular-5.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_modular_annotations",
+      "rootUri": "file:///C:/Users/HaiNguyen/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_modular_annotations-0.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_test",
       "rootUri": "file:///D:/flutter/flutter3.7/packages/flutter_test",
       "packageUri": "lib/",
@@ -390,6 +402,18 @@
       "rootUri": "file:///C:/Users/HaiNguyen/AppData/Local/Pub/Cache/hosted/pub.dev/mime-1.0.4",
       "packageUri": "lib/",
       "languageVersion": "2.18"
+    },
+    {
+      "name": "modular_core",
+      "rootUri": "file:///C:/Users/HaiNguyen/AppData/Local/Pub/Cache/hosted/pub.dev/modular_core-2.0.3+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "modular_interfaces",
+      "rootUri": "file:///C:/Users/HaiNguyen/AppData/Local/Pub/Cache/hosted/pub.dev/modular_interfaces-2.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "nested",
@@ -704,7 +728,7 @@
       "languageVersion": "2.16"
     }
   ],
-  "generated": "2023-07-11T02:45:18.105952Z",
+  "generated": "2023-07-13T01:53:16.266259Z",
   "generator": "pub",
   "generatorVersion": "2.19.3"
 }

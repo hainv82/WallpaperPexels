@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:z_core/pexels/view/view_img.dart';
 
-class PopularTab extends StatefulWidget {
+class DiscoverTab extends StatefulWidget {
   final List<String>? listImg;
 
-  const PopularTab({Key? key, required this.listImg}) : super(key: key);
+  const DiscoverTab({Key? key, required this.listImg}) : super(key: key);
 
   @override
-  State<PopularTab> createState() => _PopularTabState();
+  State<DiscoverTab> createState() => _DiscoverTabState();
 }
 
-class _PopularTabState extends State<PopularTab> {
+class _DiscoverTabState extends State<DiscoverTab> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;

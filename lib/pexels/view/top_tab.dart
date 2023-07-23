@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TopTab extends StatefulWidget {
-  const TopTab({Key? key}) : super(key: key);
+  final List<String>? listImg;
+  const TopTab({Key? key, required this.listImg}) : super(key: key);
 
   @override
   State<TopTab> createState() => _TopTabState();
