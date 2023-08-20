@@ -5,7 +5,7 @@
 5    android:versionName="1.0.0" >
 6
 7    <uses-sdk
-8        android:minSdkVersion="16"
+8        android:minSdkVersion="21"
 9        android:targetSdkVersion="33" />
 10    <!--
 11         Flutter needs it to communicate with the running application
@@ -76,55 +76,58 @@
 61        <meta-data
 62            android:name="flutterEmbedding"
 63            android:value="2" />
-64
-65        <service
-65-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:17:9-30:19
-66            android:name="com.codenameakshay.async_wallpaper.VideoLiveWallpaper"
-66-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:18:13-81
-67            android:exported="true"
-67-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:19:13-36
-68            android:label="@string/app_name"
-68-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:20:13-45
-69            android:permission="android.permission.BIND_WALLPAPER"
-69-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:21:13-67
-70            android:process=":wallpaper" >
-70-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:22:13-41
-71            <intent-filter>
-71-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:23:13-25:29
-72                <action android:name="android.service.wallpaper.WallpaperService" />
-72-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:24:17-85
-72-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:24:25-82
-73            </intent-filter>
-74
-75            <meta-data
-75-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:27:13-29:57
-76                android:name="android.service.wallpaper"
-76-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:28:17-57
-77                android:resource="@xml/livewallpaper" />
-77-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:29:17-54
-78        </service>
-79
-80        <uses-library
-80-->[androidx.window:window:1.0.0-beta04] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
-81            android:name="androidx.window.extensions"
-81-->[androidx.window:window:1.0.0-beta04] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
-82            android:required="false" />
-82-->[androidx.window:window:1.0.0-beta04] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
+64        <meta-data
+65            android:name="com.google.android.gms.ads.APPLICATION_ID"
+66            android:value="ca-app-pub-1500746861959987~8673998372" />
+67
+68        <service
+68-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:17:9-30:19
+69            android:name="com.codenameakshay.async_wallpaper.VideoLiveWallpaper"
+69-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:18:13-81
+70            android:exported="true"
+70-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:19:13-36
+71            android:label="@string/app_name"
+71-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:20:13-45
+72            android:permission="android.permission.BIND_WALLPAPER"
+72-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:21:13-67
+73            android:process=":wallpaper" >
+73-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:22:13-41
+74            <intent-filter>
+74-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:23:13-25:29
+75                <action android:name="android.service.wallpaper.WallpaperService" />
+75-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:24:17-85
+75-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:24:25-82
+76            </intent-filter>
+77
+78            <meta-data
+78-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:27:13-29:57
+79                android:name="android.service.wallpaper"
+79-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:28:17-57
+80                android:resource="@xml/livewallpaper" />
+80-->[:async_wallpaper] D:\VSCode\WallpaperPexels\build\async_wallpaper\intermediates\library_manifest\debug\AndroidManifest.xml:29:17-54
+81        </service>
+82
 83        <uses-library
-83-->[androidx.window:window:1.0.0-beta04] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
-84            android:name="androidx.window.sidecar"
-84-->[androidx.window:window:1.0.0-beta04] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+83-->[androidx.window:window:1.0.0-beta04] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
+84            android:name="androidx.window.extensions"
+84-->[androidx.window:window:1.0.0-beta04] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
 85            android:required="false" />
-85-->[androidx.window:window:1.0.0-beta04] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
-86
-87        <provider
-87-->[com.squareup.picasso:picasso:2.71828] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\eea98ebb4bfdcb405983dcba4fa25072\jetified-picasso-2.71828\AndroidManifest.xml:8:9-11:40
-88            android:name="com.squareup.picasso.PicassoProvider"
-88-->[com.squareup.picasso:picasso:2.71828] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\eea98ebb4bfdcb405983dcba4fa25072\jetified-picasso-2.71828\AndroidManifest.xml:9:13-64
-89            android:authorities="com.zcr.z_core.com.squareup.picasso"
-89-->[com.squareup.picasso:picasso:2.71828] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\eea98ebb4bfdcb405983dcba4fa25072\jetified-picasso-2.71828\AndroidManifest.xml:10:13-72
-90            android:exported="false" />
-90-->[com.squareup.picasso:picasso:2.71828] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\eea98ebb4bfdcb405983dcba4fa25072\jetified-picasso-2.71828\AndroidManifest.xml:11:13-37
-91    </application>
-92
-93</manifest>
+85-->[androidx.window:window:1.0.0-beta04] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
+86        <uses-library
+86-->[androidx.window:window:1.0.0-beta04] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
+87            android:name="androidx.window.sidecar"
+87-->[androidx.window:window:1.0.0-beta04] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+88            android:required="false" />
+88-->[androidx.window:window:1.0.0-beta04] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
+89
+90        <provider
+90-->[com.squareup.picasso:picasso:2.71828] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\eea98ebb4bfdcb405983dcba4fa25072\jetified-picasso-2.71828\AndroidManifest.xml:8:9-11:40
+91            android:name="com.squareup.picasso.PicassoProvider"
+91-->[com.squareup.picasso:picasso:2.71828] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\eea98ebb4bfdcb405983dcba4fa25072\jetified-picasso-2.71828\AndroidManifest.xml:9:13-64
+92            android:authorities="com.zcr.z_core.com.squareup.picasso"
+92-->[com.squareup.picasso:picasso:2.71828] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\eea98ebb4bfdcb405983dcba4fa25072\jetified-picasso-2.71828\AndroidManifest.xml:10:13-72
+93            android:exported="false" />
+93-->[com.squareup.picasso:picasso:2.71828] C:\Users\HaiNguyen\.gradle\caches\transforms-2\files-2.1\eea98ebb4bfdcb405983dcba4fa25072\jetified-picasso-2.71828\AndroidManifest.xml:11:13-37
+94    </application>
+95
+96</manifest>

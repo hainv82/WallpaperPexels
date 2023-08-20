@@ -1,71 +1,221 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:z_core/ex1/controller_ex1/ex1_event.dart';
-import 'package:z_core/ex1/controller_ex1/ex1_state.dart';
-import 'package:z_core/pexels/bloc/pixel_bloc.dart';
-import 'package:z_core/pexels/bloc/pixel_event.dart';
-import 'package:z_core/pexels/bloc/pixel_state.dart';
-import 'package:z_core/pexels/view/second_route.dart';
+import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 
-import 'ex1/controller_ex1/ex1_bloc.dart';
-
-class Main2 extends StatelessWidget {
-  const Main2({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => BlocProvider<PixelBloc>(
-      create: (context) {
-        final initialState =  PixelInitial();
-        return PixelBloc(initialState);
-      },
-      child: const MaterialApp(home: HomePage()));
-  // Widget build(BuildContext context) => BlocProvider<Ex1Bloc>(
-  //     create: (context) {
-  //       final initialState = EX1State(tokenResgis: "", tokenLog: "", id: "");
-  //       return Ex1Bloc(initialState);
-  //     },
-  //     child: const MaterialApp(home: HomePage()));
-  //
+void main() {
+  runApp(const MyApp());
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  MyAppState createState() => MyAppState();
 }
 
-class _HomePageState extends State<HomePage> {
+class MyAppState extends State<MyApp> {
+  final GlobalKey<SliderDrawerState> _sliderDrawerKey =
+  GlobalKey<SliderDrawerState>();
+  late String title;
+
+  @override
+  void initState() {
+    title = "Home";
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('----')),
-      body: Column(
-        children: [
-          TextButton(
-              onPressed: () => {
-                    context
-                        .read<Ex1Bloc>()
-                        .add(OnRegisEvent("eve.holt@reqres.in", "pistol"))
-                  },
-              child: const Text("TestLogin")),
-          TextButton(
-              onPressed: () => {
-                    context
-                        .read<PixelBloc>()
-                        .add(GetTrendByHostEvent())
-                        // .add(GetTrendEvent(scrKey: 'H2jk9uKnhRmL6WPwh89zBezWvr'))
-                        // .add(GetSlugEvent(nonParam: 'nonParam'))
-                  },
-              child: const Text("Test json pexels")),
-          TextButton(onPressed: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) =>  SecondRoute()),
-            );
-          }, child: Text('open route'))
+    return MaterialApp(
+      theme: ThemeData(fontFamily: 'BalsamiqSans'),
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: SliderDrawer(
+            appBar: SliderAppBar(
+                appBarColor: Colors.white,
+                title: Text(title,
+                    style: const TextStyle(
+                        fontSize: 22, fontWeight: FontWeight.w700))),
+            key: _sliderDrawerKey,
+            sliderOpenSize: 179,
+            slider: _SliderView(
+              onItemClick: (title) {
+                _sliderDrawerKey.currentState!.closeSlider();
+                setState(() {
+                  this.title = title;
+                });
+              },
+            ),
+            child: _AuthorList()),
+      ),
+    );
+  }
+}
+
+class _SliderView extends StatelessWidget {
+  final Function(String)? onItemClick;
+
+  const _SliderView({Key? key, this.onItemClick}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.only(top: 30),
+      child: ListView(
+        children: <Widget>[
+          const SizedBox(
+            height: 30,
+          ),
+          CircleAvatar(
+            radius: 65,
+            backgroundColor: Colors.grey,
+            child: CircleAvatar(
+              radius: 60,
+              backgroundImage: Image.network(
+                  'https://nikhilvadoliya.github.io/assets/images/nikhil_1.webp')
+                  .image,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          const Text(
+            'Nick',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          ...[
+            Menu(Icons.home, 'Home'),
+            Menu(Icons.add_circle, 'Add Post'),
+            Menu(Icons.notifications_active, 'Notification'),
+            Menu(Icons.favorite, 'Likes'),
+            Menu(Icons.settings, 'Setting'),
+            Menu(Icons.arrow_back_ios, 'LogOut')
+          ]
+              .map((menu) => _SliderMenuItem(
+              title: menu.title,
+              iconData: menu.iconData,
+              onTap: onItemClick))
+              .toList(),
         ],
       ),
     );
   }
+}
+
+class _SliderMenuItem extends StatelessWidget {
+  final String title;
+  final IconData iconData;
+  final Function(String)? onTap;
+
+  const _SliderMenuItem(
+      {Key? key,
+        required this.title,
+        required this.iconData,
+        required this.onTap})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        title: Text(title,
+            style: const TextStyle(
+                color: Colors.black, fontFamily: 'BalsamiqSans_Regular')),
+        leading: Icon(iconData, color: Colors.black),
+        onTap: () => onTap?.call(title));
+  }
+}
+
+class _AuthorList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    List<Quotes> quotesList = [];
+    quotesList.add(Quotes(Colors.amber, 'Amelia Brown',
+        'Life would be a great deal easier if dead things had the decency to remain dead.'));
+    quotesList.add(Quotes(Colors.orange, 'Olivia Smith',
+        'That proves you are unusual," returned the Scarecrow'));
+    quotesList.add(Quotes(Colors.deepOrange, 'Sophia Jones',
+        'Her name badge read: Hello! My name is DIE, DEMIGOD SCUM!'));
+    quotesList.add(Quotes(Colors.red, 'Isabella Johnson',
+        'I am about as intimidating as a butterfly.'));
+    quotesList.add(Quotes(Colors.purple, 'Emily Taylor',
+        'Never ask an elf for help; they might decide your better off dead, eh?'));
+    quotesList
+        .add(Quotes(Colors.green, 'Maya Thomas', 'Act first, explain later'));
+
+    return Container(
+      color: Colors.blue,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: ListView.separated(
+          scrollDirection: Axis.vertical,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          itemBuilder: (builder, index) {
+            return LimitedBox(
+              maxHeight: 150,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: quotesList[index].color,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(10.0),
+                    )),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Text(
+                        quotesList[index].author,
+                        style: const TextStyle(
+                            fontFamily: 'BalsamiqSans_Blod',
+                            fontSize: 30,
+                            color: Colors.white),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                        quotesList[index].quote,
+                        style: const TextStyle(
+                            fontFamily: 'BalsamiqSans_Regular',
+                            fontSize: 15,
+                            color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+          separatorBuilder: (builder, index) {
+            return const Divider(
+              height: 10,
+              thickness: 0,
+            );
+          },
+          itemCount: quotesList.length),
+    );
+  }
+}
+
+class Quotes {
+  final MaterialColor color;
+  final String author;
+  final String quote;
+
+  Quotes(this.color, this.author, this.quote);
+}
+
+class Menu {
+  final IconData iconData;
+  final String title;
+
+  Menu(this.iconData, this.title);
 }

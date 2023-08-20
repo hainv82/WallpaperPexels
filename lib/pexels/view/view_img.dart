@@ -249,6 +249,36 @@ Future<void> setWallpaperHome({required String url, required bool goHome}) async
   //   _wallpaperUrlHome = result;
   // });
 }
+Future<void> setWallpaperFromFileLock({required String url, required bool goHome}) async {
+  // setState(() {
+  //   _wallpaperFileLock = 'Loading';
+  // });
+  String result;
+  var file = await DefaultCacheManager().getSingleFile(url);
+  // Platform messages may fail, so we use a try/catch PlatformException.
+  try {
+    result = await AsyncWallpaper.setWallpaperFromFile(
+      filePath: file.path,
+      wallpaperLocation: AsyncWallpaper.LOCK_SCREEN,
+      goToHome: goHome,
+      toastDetails: ToastDetails.success(),
+      errorToastDetails: ToastDetails.error(),
+    )
+        ? 'Wallpaper set'
+        : 'Failed to get wallpaper.';
+  } on PlatformException {
+    result = 'Failed to get wallpaper.';
+  }
+
+  // If the widget was removed from the tree while the asynchronous platform
+  // message was in flight, we want to discard the reply rather than calling
+  // setState to update our non-existent appearance.
+  // if (!mounted) return;
+  //
+  // setState(() {
+  //   _wallpaperFileLock = result;
+  // });
+}
 
 
 Future<void> _downloadImage({

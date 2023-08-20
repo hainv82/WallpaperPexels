@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:z_core/pexels/view/view_img.dart';
 
 class ChallengeTab extends StatefulWidget {
   final List<String>? listImg;
+
   const ChallengeTab({Key? key, required this.listImg}) : super(key: key);
 
   @override
@@ -11,6 +13,47 @@ class ChallengeTab extends StatefulWidget {
 class _ChallengeTabState extends State<ChallengeTab> {
   @override
   Widget build(BuildContext context) {
-    return Container(child: Text('challenge tab '),);
+    var size = MediaQuery.of(context).size;
+    final double itemWidth = size.width / 3;
+    final double itemHeight = size.width / 2;
+
+    return Scaffold(
+      body: Container(
+        child: GridView.builder(
+            itemCount: widget.listImg?.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: (itemWidth / itemHeight),
+            ),
+            itemBuilder: (BuildContext context, int index) {
+              return GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ViewImage(
+                          uri: widget.listImg![index],
+                          index: index,
+                          listUri: widget.listImg ?? [],
+                        )),
+                  );
+                },
+                child: Container(
+                    color: Colors.black87,
+                    padding: EdgeInsets.all(0),
+                    child: widget.listImg != null
+                        ? Image.network(
+                      widget.listImg![index],
+                      fit: BoxFit.cover,
+                    )
+                        : const Icon(
+                      Icons.downloading,
+                      size: 48,
+                      color: Colors.white,
+                    )),
+              );
+            }),
+      ),
+    );
   }
 }

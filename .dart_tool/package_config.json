@@ -278,6 +278,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_slider_drawer",
+      "rootUri": "file:///C:/Users/HaiNguyen/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_slider_drawer-2.1.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_test",
       "rootUri": "file:///D:/flutter/flutter3.7/packages/flutter_test",
       "packageUri": "lib/",
@@ -728,7 +734,7 @@
       "languageVersion": "2.16"
     }
   ],
-  "generated": "2023-07-13T01:53:16.266259Z",
+  "generated": "2023-08-18T03:31:48.785878Z",
   "generator": "pub",
   "generatorVersion": "2.19.3"
 }
