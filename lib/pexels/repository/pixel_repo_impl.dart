@@ -1,5 +1,10 @@
+
+import 'dart:developer';
+
 import 'package:z_core/helper/app_config.dart';
 import 'package:z_core/helper/resource_enpoint.dart';
+import 'package:z_core/pexels/model/res/base_data.model.dart';
+import 'package:z_core/pexels/model/res/check_collection_data.model.dart';
 import 'package:z_core/pexels/model/res/data_image_host.model.dart';
 import 'package:z_core/pexels/model/res/discover_data.model.dart';
 import 'package:z_core/pexels/model/res/trend/data_trend.model.dart';
@@ -44,7 +49,15 @@ class PixelRepoImpl extends PixelRepository {
     // final list=(res.data as Map<String, dynamic>)["listTrend"] as List;
     final data=DataImageHost.fromJson(res.data);
     return data;
+  }
 
+  @override
+  Future<BaseData> getBaseData() async{
+    final api=AppGateway2(endpoint: ePointBaseDate(), prefix: baseHost(), method: HTTPMethod.get);
+    var res=await api.execute();
+    log("===res: $res");
+    final data=BaseData.fromJson(res.data);
+    return data;
   }
 
   @override
@@ -68,6 +81,15 @@ class PixelRepoImpl extends PixelRepository {
     final api=AppGateway2(endpoint: ePointTop(), prefix: baseHost(), method: HTTPMethod.get);
     var res=await api.execute();
     final data=DataImageHost.fromJson(res.data);
+    return data;
+  }
+
+  @override
+  Future<CheckCollectionData> checkCollection() async {
+    final api=AppGateway2(endpoint: ePointCollection2(), prefix: baseHost(), method: HTTPMethod.get);
+    var res=await api.execute();
+    final data=CheckCollectionData.fromJson(res.data);
+    log('===collection : ${data.appName}');
     return data;
   }
 }

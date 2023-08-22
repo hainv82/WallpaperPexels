@@ -11,3 +11,5 @@ String ePointTrend()=>'pexel/trend.json';
 String ePointTop()=>'pexel/top.json';
 String ePointChallenge() => 'pexel/challenge.json';
 String ePointDiscoverHost() => 'pexel/discover.json';
+String ePointBaseDate()=>'app/base_data.json';
+String ePointCollection2()=>'collection2.json';

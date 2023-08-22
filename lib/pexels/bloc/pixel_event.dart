@@ -1,3 +1,5 @@
+import 'package:z_core/pexels/bloc/pixel_state.dart';
+
 class PixelEvent{
   PixelEvent();
 }
@@ -16,6 +18,11 @@ class GetTrendEvent extends PixelEvent{
 class GetTrendByHostEvent extends PixelEvent{
 
   GetTrendByHostEvent();
+}
+
+class CheckCollectionEvent extends PixelEvent{
+
+  CheckCollectionEvent();
 }
 
 class GetTopByHostEvent extends PixelEvent{
@@ -38,3 +45,9 @@ class SetTitleWhenPageChange extends PixelEvent{
 
   SetTitleWhenPageChange({required this.newTitle});
 }
+
+class GetBaseDataEvent extends PixelEvent{
+
+  GetBaseDataEvent();
+}
+

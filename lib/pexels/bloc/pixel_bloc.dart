@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/src/bloc.dart';
+import 'package:z_core/helper/base_data_collection.dart';
 import 'package:z_core/pexels/bloc/pixel_event.dart';
 import 'package:z_core/pexels/bloc/pixel_state.dart';
 import 'package:z_core/pexels/repository/pixel_repo_impl.dart';
@@ -14,10 +15,12 @@ class PixelBloc extends CoreBloc<PixelEvent, PixelState>{
     // on((event, emit) => null)
    // on<GetTrendEvent>(_onGetTrend);
    on<GetTrendByHostEvent>(_onGetTrendByHost);
+   on<CheckCollectionEvent>(_onCheckCollection);
    on<GetTopByHostEvent>(_onGetTopByHost);
    on<GetDiscoverByHostEvent>(_onGetDiscoverByHost);
    on<GetChallengeByHostEvent>(_onGetChallengeByHost);
    on<SetTitleWhenPageChange>(_onSetTitleWhenPageChange);
+   on<GetBaseDataEvent>(_onGetBaseDataEvent);
 
   }
 
@@ -30,6 +33,12 @@ class PixelBloc extends CoreBloc<PixelEvent, PixelState>{
     final res=await PixelRepoImpl().getImgTrend();
     log('---resImg: ${res.listImg?.length}');
     emit(LoadListImgTrend(listTrend: res.listImg));
+  }
+
+  void _onCheckCollection(CheckCollectionEvent event, Emitter<PixelState> emit) async{
+    final res=await PixelRepoImpl().checkCollection();
+    // dataCollection()=DataCollection(appName: res.appName??'', collection: res.collection??[]);
+    emit(CheckCollectionState(appName: res.appName,listCollection: res.collection));
   }
 
   void _onGetTopByHost(GetTopByHostEvent event, Emitter<PixelState> emit) async {
@@ -46,6 +55,11 @@ class PixelBloc extends CoreBloc<PixelEvent, PixelState>{
   void _onGetChallengeByHost(GetChallengeByHostEvent event, Emitter<PixelState> emit) async{
     final res=await PixelRepoImpl().getImgChallenge();
     emit(LoadListImgChallenge(listChallenge: res.listImg));
+  }
+  void _onGetBaseDataEvent(GetBaseDataEvent event, Emitter<PixelState> emit) async {
+    final res=await PixelRepoImpl().getBaseData();
+    log('===appname: ${res.nameApp}');
+    emit(GetBaseDataState(baseDataState: res));
   }
 
   void _onSetTitleWhenPageChange(SetTitleWhenPageChange event, Emitter<PixelState> emit) {

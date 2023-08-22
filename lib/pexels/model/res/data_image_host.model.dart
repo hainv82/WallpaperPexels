@@ -14,6 +14,5 @@ class DataImageHost extends Equatable {
       _$DataImageHostFromJson(json);
 
   @override
-  // TODO: implement props
   List<Object?> get props => [listImg];
 }

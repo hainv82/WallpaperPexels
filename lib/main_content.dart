@@ -9,6 +9,7 @@ import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:z_core/pexels/bloc/pixel_bloc.dart';
 import 'package:z_core/pexels/bloc/pixel_event.dart';
 import 'package:z_core/pexels/bloc/pixel_state.dart';
+import 'package:z_core/pexels/model/res/check_collection_data.model.dart';
 import 'package:z_core/pexels/view/challengen_tab.dart';
 import 'package:z_core/pexels/view/popular_tab.dart';
 import 'package:z_core/pexels/view/top_tab.dart';
@@ -92,6 +93,7 @@ class _HomeContentState extends State<HomeContent>
     final double itemWidth = size.width / 3;
     final double itemHeight = size.width / 2;
     final listTitle = ["Home", "Trend", "Top", "Discover"];
+    CheckCollectionData collectionData;
 
     return BlocProvider(
         create: (context) {
@@ -99,211 +101,449 @@ class _HomeContentState extends State<HomeContent>
           // context.read<PixelBloc>().add(GetTrendByHostEvent());
           // context.read<PixelBloc>().add(GetTopByHostEvent());
           // context.read<PixelBloc>().add(GetChallengeByHostEvent());
-          // context.read<PixelBloc>().add(GetDiscoverByHostEvent());
+          context.read<PixelBloc>().add(CheckCollectionEvent());
+          log('==GetBaseDataEvent');
           return PixelBloc(initialState);
         },
-        child: Scaffold(
-          // appBar: AppBar(
-          //   actions: <Widget>[
-          //     IconButton(
-          //       icon: Icon(
-          //         Icons.settings,
-          //         color: Colors.white,
-          //       ),
-          //       onPressed: () {
-          //         // do something
-          //       },
-          //     )
-          //   ],
-          //   leading: IconButton(
-          //     alignment: Alignment.center,
-          //     onPressed: () {},
-          //     icon: const Icon(Icons.art_track_outlined),
-          //   ),
-          //   centerTitle: true,
-          //   title: BlocBuilder<PixelBloc, PixelState>(
-          //     buildWhen: (previous, current) =>
-          //         previous != current && current is TitleState,
-          //     bloc: context.read<PixelBloc>(),
-          //     builder: (mContext, state) {
-          //       log('---change tab in builder: ${_tabController.index}');
-          //       // mBloc.add(
-          //       //     SetTitleWhenPageChange(newTitle: listTitle[_tabController.index]));
-          //       mContext.read<PixelBloc>().add(SetTitleWhenPageChange(
-          //           newTitle: listTitle[_tabController.index]));
-          //       //
-          //       return Text(
-          //         state is TitleState
-          //             ? state.title ?? 'Wallpaper Pixel1'
-          //             : 'Wallpaper Pixel2',
-          //         style: const TextStyle(fontSize: 14),
-          //       );
-          //     },
-          //   ),
-          //   toolbarHeight: 30,
-          //   backgroundColor: Colors.black87,
-          // ),
-          body: SliderDrawer(
-            key: _sliderDrawerKey,
-            sliderOpenSize: 179,
-            appBar: SliderAppBar(
-              title: Text(
-                "title",
-                style: TextStyle(color: Colors.white),
-              ),
-              appBarColor: Colors.black87,
-              drawerIconColor: Colors.white,
-            ),
-            // appBar: AppBar(
-            //   actions: <Widget>[
-            //     IconButton(
-            //       icon: Icon(
-            //         Icons.settings,
-            //         color: Colors.white,
-            //       ),
-            //       onPressed: () {
-            //         // do something
-            //       },
-            //     )
-            //   ],
-            //   leading: IconButton(
-            //     alignment: Alignment.center,
-            //     onPressed: () {
-            //       _sliderDrawerKey.currentState!.openSlider();
-            //
-            //     },
-            //     icon: const Icon(Icons.art_track_outlined),
-            //   ),
-            //   centerTitle: true,
-            //   title: BlocBuilder<PixelBloc, PixelState>(
-            //     buildWhen: (previous, current) =>
-            //         previous != current && current is TitleState,
-            //     bloc: context.read<PixelBloc>(),
-            //     builder: (mContext, state) {
-            //       log('---change tab in builder: ${_tabController.index}');
-            //       // mBloc.add(
-            //       //     SetTitleWhenPageChange(newTitle: listTitle[_tabController.index]));
-            //       mContext.read<PixelBloc>().add(SetTitleWhenPageChange(
-            //           newTitle: listTitle[_tabController.index]));
-            //       //
-            //       return Text(
-            //         state is TitleState
-            //             ? state.title ?? 'Wallpaper Pixel1'
-            //             : 'Wallpaper Pixel2',
-            //         style: const TextStyle(fontSize: 14),
-            //       );
-            //     },
-            //   ),
-            //   toolbarHeight: 30,
-            //   backgroundColor: Colors.black87,
-            // ),
-            slider: _SliderView(
-              onItemClick: (title) {
-                _sliderDrawerKey.currentState!.closeSlider();
-                log('===title: $title');
-                // setState(() { add event
-                //   this.title = title;
-                // });
-              },
-            ),
-            child: Container(
-              color: Colors.black87,
-              child: Column(
-                children: [
-                  TabBar(
-                    controller: _tabController,
-                    // padding: EdgeInsets.symmetric(vertical: 8),
-                    indicatorColor: Colors.white,
-                    overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.hovered)) {
-                          return Colors.amberAccent; //<-- SEE HERE
-                        }
-                        return null;
-                      },
+        child: BlocBuilder<PixelBloc, PixelState>(
+          buildWhen: (previous, current) =>
+              previous != current && current is CheckCollectionState,
+          builder: (mContext, state) {
+            // mContext.read<PixelBloc>().add(CheckCollectionEvent());
+            // var name = state is CheckCollectionState ?state.appName:'nullName';
+            // log('===name after build : $name');
+            if (state is CheckCollectionState) {
+              log('===state is  CheckCollectionState');
+              collectionData =
+                  CheckCollectionData(state.appName, state.listCollection);
+              return Scaffold(
+                // appBar: AppBar(
+                //   actions: <Widget>[
+                //     IconButton(
+                //       icon: Icon(
+                //         Icons.settings,
+                //         color: Colors.white,
+                //       ),
+                //       onPressed: () {
+                //         // do something
+                //       },
+                //     )
+                //   ],
+                //   leading: IconButton(
+                //     alignment: Alignment.center,
+                //     onPressed: () {},
+                //     icon: const Icon(Icons.art_track_outlined),
+                //   ),
+                //   centerTitle: true,
+                //   title: BlocBuilder<PixelBloc, PixelState>(
+                //     buildWhen: (previous, current) =>
+                //         previous != current && current is TitleState,
+                //     bloc: context.read<PixelBloc>(),
+                //     builder: (mContext, state) {
+                //       log('---change tab in builder: ${_tabController.index}');
+                //       // mBloc.add(
+                //       //     SetTitleWhenPageChange(newTitle: listTitle[_tabController.index]));
+                //       mContext.read<PixelBloc>().add(SetTitleWhenPageChange(
+                //           newTitle: listTitle[_tabController.index]));
+                //       //
+                //       return Text(
+                //         state is TitleState
+                //             ? state.title ?? 'Wallpaper Pixel1'
+                //             : 'Wallpaper Pixel2',
+                //         style: const TextStyle(fontSize: 14),
+                //       );
+                //     },
+                //   ),
+                //   toolbarHeight: 30,
+                //   backgroundColor: Colors.black87,
+                // ),
+                body: SliderDrawer(
+                  key: _sliderDrawerKey,
+                  sliderOpenSize: 179,
+                  appBar: SliderAppBar(
+                    title: Text(
+                      "title",
+                      style: TextStyle(color: Colors.white),
                     ),
-                    tabs: const [
-                      Tab(icon: Icon(Icons.home)),
-                      Tab(icon: Icon(Icons.vertical_align_top)),
-                      Tab(icon: Icon(Icons.access_time_filled)),
-                      Tab(icon: Icon(Icons.fireplace)),
-                    ],
-                    labelColor: Colors.white,
-                    unselectedLabelColor: Colors.blueGrey,
+                    appBarColor: Colors.black87,
+                    drawerIconColor: Colors.white,
                   ),
-                  Expanded(
-                    child: TabBarView(
-                      controller: _tabController,
+                  // appBar: AppBar(
+                  //   actions: <Widget>[
+                  //     IconButton(
+                  //       icon: Icon(
+                  //         Icons.settings,
+                  //         color: Colors.white,
+                  //       ),
+                  //       onPressed: () {
+                  //         // do something
+                  //       },
+                  //     )
+                  //   ],
+                  //   leading: IconButton(
+                  //     alignment: Alignment.center,
+                  //     onPressed: () {
+                  //       _sliderDrawerKey.currentState!.openSlider();
+                  //
+                  //     },
+                  //     icon: const Icon(Icons.art_track_outlined),
+                  //   ),
+                  //   centerTitle: true,
+                  //   title: BlocBuilder<PixelBloc, PixelState>(
+                  //     buildWhen: (previous, current) =>
+                  //         previous != current && current is TitleState,
+                  //     bloc: context.read<PixelBloc>(),
+                  //     builder: (mContext, state) {
+                  //       log('---change tab in builder: ${_tabController.index}');
+                  //       // mBloc.add(
+                  //       //     SetTitleWhenPageChange(newTitle: listTitle[_tabController.index]));
+                  //       mContext.read<PixelBloc>().add(SetTitleWhenPageChange(
+                  //           newTitle: listTitle[_tabController.index]));
+                  //       //
+                  //       return Text(
+                  //         state is TitleState
+                  //             ? state.title ?? 'Wallpaper Pixel1'
+                  //             : 'Wallpaper Pixel2',
+                  //         style: const TextStyle(fontSize: 14),
+                  //       );
+                  //     },
+                  //   ),
+                  //   toolbarHeight: 30,
+                  //   backgroundColor: Colors.black87,
+                  // ),
+                  slider: _SliderView(
+                    onItemClick: (title) {
+                      _sliderDrawerKey.currentState!.closeSlider();
+                      log('===title: $title');
+                      // setState(() {
+                      //   this.title = title;
+                      // });
+                    },
+                    data: collectionData,
+                  ),
+                  child: Container(
+                    color: Colors.black87,
+                    child: Column(
                       children: [
-                        BlocBuilder<PixelBloc, PixelState>(
-                          buildWhen: (previous, current) =>
-                              previous != current &&
-                              current is LoadListImgTrend,
-                          builder: (mContext, state) {
-                            // mBloc.add(GetTrendByHostEvent());
-                            mContext
-                                .read<PixelBloc>()
-                                .add(GetTrendByHostEvent());
-                            // return Text("aaaa", style: TextStyle(color: Colors.white),);
-                            return state is LoadListImgTrend
-                                ? TrendTab(listImg: state.listTrend)
-                                : const TrendTab(listImg: []);
-                          },
+                        TabBar(
+                          controller: _tabController,
+                          // padding: EdgeInsets.symmetric(vertical: 8),
+                          indicatorColor: Colors.white,
+                          overlayColor:
+                              MaterialStateProperty.resolveWith<Color?>(
+                            (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.hovered)) {
+                                return Colors.amberAccent; //<-- SEE HERE
+                              }
+                              return null;
+                            },
+                          ),
+                          tabs: const [
+                            Tab(icon: Icon(Icons.home)),
+                            Tab(icon: Icon(Icons.vertical_align_top)),
+                            Tab(icon: Icon(Icons.access_time_filled)),
+                            Tab(icon: Icon(Icons.fireplace)),
+                          ],
+                          labelColor: Colors.white,
+                          unselectedLabelColor: Colors.blueGrey,
                         ),
-                        BlocBuilder<PixelBloc, PixelState>(
-                          buildWhen: (previous, current) =>
-                              previous != current &&
-                              current is LoadListImgDiscover,
-                          builder: (mContext, state) {
-                            mContext
-                                .read<PixelBloc>()
-                                .add(GetDiscoverByHostEvent());
-                            return state is LoadListImgDiscover
-                                ? DiscoverTab(
-                                    listImg: state.listDiscover,
-                                  )
-                                : const DiscoverTab(listImg: []);
-                          },
-                        ),
-                        BlocBuilder<PixelBloc, PixelState>(
-                          buildWhen: (previous, current) =>
-                              previous != current && current is LoadListImgTop,
-                          builder: (mContext, state) {
-                            mContext.read<PixelBloc>().add(GetTopByHostEvent());
-                            return state is LoadListImgTop
-                                ? TopTab(
-                                    listImg: state.listTop,
-                                  )
-                                : const TopTab(listImg: []);
-                          },
-                        ),
-                        BlocBuilder<PixelBloc, PixelState>(
-                          buildWhen: (previous, current) =>
-                              previous != current &&
-                              current is LoadListImgChallenge,
-                          builder: (mContext, state) {
-                            mContext
-                                .read<PixelBloc>()
-                                .add(GetChallengeByHostEvent());
-                            return state is LoadListImgChallenge
-                                ? ChallengeTab(listImg: state.listChallenge)
-                                : const ChallengeTab(listImg: []);
-                          },
-                        ),
+                        Expanded(
+                          child: TabBarView(
+                            controller: _tabController,
+                            children: [
+                              BlocBuilder<PixelBloc, PixelState>(
+                                buildWhen: (previous, current) =>
+                                    previous != current &&
+                                    current is LoadListImgTrend,
+                                builder: (mContext, state) {
+                                  // mBloc.add(GetTrendByHostEvent());
+                                  // mContext.read<PixelBloc>().add(GetBaseDataEvent());
+                                  mContext
+                                      .read<PixelBloc>()
+                                      .add(GetTrendByHostEvent());
+                                  // return Text("aaaa", style: TextStyle(color: Colors.white),);
+                                  return state is LoadListImgTrend
+                                      ? TrendTab(listImg: state.listTrend)
+                                      : const TrendTab(listImg: []);
+                                },
+                              ),
+                              BlocBuilder<PixelBloc, PixelState>(
+                                buildWhen: (previous, current) =>
+                                    previous != current &&
+                                    current is LoadListImgDiscover,
+                                builder: (mContext, state) {
+                                  mContext
+                                      .read<PixelBloc>()
+                                      .add(GetDiscoverByHostEvent());
+                                  return state is LoadListImgDiscover
+                                      ? DiscoverTab(
+                                          listImg: state.listDiscover,
+                                        )
+                                      : const DiscoverTab(listImg: []);
+                                },
+                              ),
+                              BlocBuilder<PixelBloc, PixelState>(
+                                buildWhen: (previous, current) =>
+                                    previous != current &&
+                                    current is LoadListImgTop,
+                                builder: (mContext, state) {
+                                  mContext
+                                      .read<PixelBloc>()
+                                      .add(GetTopByHostEvent());
+                                  return state is LoadListImgTop
+                                      ? TopTab(
+                                          listImg: state.listTop,
+                                        )
+                                      : const TopTab(listImg: []);
+                                },
+                              ),
+                              BlocBuilder<PixelBloc, PixelState>(
+                                buildWhen: (previous, current) =>
+                                    previous != current &&
+                                    current is LoadListImgChallenge,
+                                builder: (mContext, state) {
+                                  mContext
+                                      .read<PixelBloc>()
+                                      .add(GetChallengeByHostEvent());
+                                  return state is LoadListImgChallenge
+                                      ? ChallengeTab(
+                                          listImg: state.listChallenge)
+                                      : const ChallengeTab(listImg: []);
+                                },
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          // bottomNavigationBar: isAdLoaded
-          //     ? SizedBox(
-          //         height: bannerAd.size.height.toDouble(),
-          //         width: bannerAd.size.width.toDouble(),
-          //         child: AdWidget(ad: bannerAd),
-          //       )
-          //     : const SizedBox(),
+                  ),
+                ),
+                // bottomNavigationBar: isAdLoaded
+                //     ? SizedBox(
+                //         height: bannerAd.size.height.toDouble(),
+                //         width: bannerAd.size.width.toDouble(),
+                //         child: AdWidget(ad: bannerAd),
+                //       )
+                //     : const SizedBox(),
+              );
+            } else {
+              mContext.read<PixelBloc>().add(CheckCollectionEvent());
+              return const Center(
+                child: Icon(Icons.downloading, color: Colors.white, size: 50),
+              );
+            }
+            // return state is CheckCollectionState
+            //     ? Scaffold(
+            //         // appBar: AppBar(
+            //         //   actions: <Widget>[
+            //         //     IconButton(
+            //         //       icon: Icon(
+            //         //         Icons.settings,
+            //         //         color: Colors.white,
+            //         //       ),
+            //         //       onPressed: () {
+            //         //         // do something
+            //         //       },
+            //         //     )
+            //         //   ],
+            //         //   leading: IconButton(
+            //         //     alignment: Alignment.center,
+            //         //     onPressed: () {},
+            //         //     icon: const Icon(Icons.art_track_outlined),
+            //         //   ),
+            //         //   centerTitle: true,
+            //         //   title: BlocBuilder<PixelBloc, PixelState>(
+            //         //     buildWhen: (previous, current) =>
+            //         //         previous != current && current is TitleState,
+            //         //     bloc: context.read<PixelBloc>(),
+            //         //     builder: (mContext, state) {
+            //         //       log('---change tab in builder: ${_tabController.index}');
+            //         //       // mBloc.add(
+            //         //       //     SetTitleWhenPageChange(newTitle: listTitle[_tabController.index]));
+            //         //       mContext.read<PixelBloc>().add(SetTitleWhenPageChange(
+            //         //           newTitle: listTitle[_tabController.index]));
+            //         //       //
+            //         //       return Text(
+            //         //         state is TitleState
+            //         //             ? state.title ?? 'Wallpaper Pixel1'
+            //         //             : 'Wallpaper Pixel2',
+            //         //         style: const TextStyle(fontSize: 14),
+            //         //       );
+            //         //     },
+            //         //   ),
+            //         //   toolbarHeight: 30,
+            //         //   backgroundColor: Colors.black87,
+            //         // ),
+            //         body: SliderDrawer(
+            //           key: _sliderDrawerKey,
+            //           sliderOpenSize: 179,
+            //           appBar: SliderAppBar(
+            //             title: Text(
+            //               "title",
+            //               style: TextStyle(color: Colors.white),
+            //             ),
+            //             appBarColor: Colors.black87,
+            //             drawerIconColor: Colors.white,
+            //           ),
+            //           // appBar: AppBar(
+            //           //   actions: <Widget>[
+            //           //     IconButton(
+            //           //       icon: Icon(
+            //           //         Icons.settings,
+            //           //         color: Colors.white,
+            //           //       ),
+            //           //       onPressed: () {
+            //           //         // do something
+            //           //       },
+            //           //     )
+            //           //   ],
+            //           //   leading: IconButton(
+            //           //     alignment: Alignment.center,
+            //           //     onPressed: () {
+            //           //       _sliderDrawerKey.currentState!.openSlider();
+            //           //
+            //           //     },
+            //           //     icon: const Icon(Icons.art_track_outlined),
+            //           //   ),
+            //           //   centerTitle: true,
+            //           //   title: BlocBuilder<PixelBloc, PixelState>(
+            //           //     buildWhen: (previous, current) =>
+            //           //         previous != current && current is TitleState,
+            //           //     bloc: context.read<PixelBloc>(),
+            //           //     builder: (mContext, state) {
+            //           //       log('---change tab in builder: ${_tabController.index}');
+            //           //       // mBloc.add(
+            //           //       //     SetTitleWhenPageChange(newTitle: listTitle[_tabController.index]));
+            //           //       mContext.read<PixelBloc>().add(SetTitleWhenPageChange(
+            //           //           newTitle: listTitle[_tabController.index]));
+            //           //       //
+            //           //       return Text(
+            //           //         state is TitleState
+            //           //             ? state.title ?? 'Wallpaper Pixel1'
+            //           //             : 'Wallpaper Pixel2',
+            //           //         style: const TextStyle(fontSize: 14),
+            //           //       );
+            //           //     },
+            //           //   ),
+            //           //   toolbarHeight: 30,
+            //           //   backgroundColor: Colors.black87,
+            //           // ),
+            //           slider: _SliderView(
+            //             onItemClick: (title) {
+            //               _sliderDrawerKey.currentState!.closeSlider();
+            //               log('===title: $title');
+            //               // setState(() { add event
+            //               //   this.title = title;
+            //               // });
+            //             }, data: collectionData,
+            //           ),
+            //           child: Container(
+            //             color: Colors.black87,
+            //             child: Column(
+            //               children: [
+            //                 TabBar(
+            //                   controller: _tabController,
+            //                   // padding: EdgeInsets.symmetric(vertical: 8),
+            //                   indicatorColor: Colors.white,
+            //                   overlayColor:
+            //                       MaterialStateProperty.resolveWith<Color?>(
+            //                     (Set<MaterialState> states) {
+            //                       if (states.contains(MaterialState.hovered)) {
+            //                         return Colors.amberAccent; //<-- SEE HERE
+            //                       }
+            //                       return null;
+            //                     },
+            //                   ),
+            //                   tabs: const [
+            //                     Tab(icon: Icon(Icons.home)),
+            //                     Tab(icon: Icon(Icons.vertical_align_top)),
+            //                     Tab(icon: Icon(Icons.access_time_filled)),
+            //                     Tab(icon: Icon(Icons.fireplace)),
+            //                   ],
+            //                   labelColor: Colors.white,
+            //                   unselectedLabelColor: Colors.blueGrey,
+            //                 ),
+            //                 Expanded(
+            //                   child: TabBarView(
+            //                     controller: _tabController,
+            //                     children: [
+            //                       BlocBuilder<PixelBloc, PixelState>(
+            //                         buildWhen: (previous, current) =>
+            //                             previous != current &&
+            //                             current is LoadListImgTrend,
+            //                         builder: (mContext, state) {
+            //                           // mBloc.add(GetTrendByHostEvent());
+            //                           // mContext.read<PixelBloc>().add(GetBaseDataEvent());
+            //                           mContext
+            //                               .read<PixelBloc>()
+            //                               .add(GetTrendByHostEvent());
+            //                           // return Text("aaaa", style: TextStyle(color: Colors.white),);
+            //                           return state is LoadListImgTrend
+            //                               ? TrendTab(listImg: state.listTrend)
+            //                               : const TrendTab(listImg: []);
+            //                         },
+            //                       ),
+            //                       BlocBuilder<PixelBloc, PixelState>(
+            //                         buildWhen: (previous, current) =>
+            //                             previous != current &&
+            //                             current is LoadListImgDiscover,
+            //                         builder: (mContext, state) {
+            //                           mContext
+            //                               .read<PixelBloc>()
+            //                               .add(GetDiscoverByHostEvent());
+            //                           return state is LoadListImgDiscover
+            //                               ? DiscoverTab(
+            //                                   listImg: state.listDiscover,
+            //                                 )
+            //                               : const DiscoverTab(listImg: []);
+            //                         },
+            //                       ),
+            //                       BlocBuilder<PixelBloc, PixelState>(
+            //                         buildWhen: (previous, current) =>
+            //                             previous != current &&
+            //                             current is LoadListImgTop,
+            //                         builder: (mContext, state) {
+            //                           mContext
+            //                               .read<PixelBloc>()
+            //                               .add(GetTopByHostEvent());
+            //                           return state is LoadListImgTop
+            //                               ? TopTab(
+            //                                   listImg: state.listTop,
+            //                                 )
+            //                               : const TopTab(listImg: []);
+            //                         },
+            //                       ),
+            //                       BlocBuilder<PixelBloc, PixelState>(
+            //                         buildWhen: (previous, current) =>
+            //                             previous != current &&
+            //                             current is LoadListImgChallenge,
+            //                         builder: (mContext, state) {
+            //                           mContext
+            //                               .read<PixelBloc>()
+            //                               .add(GetChallengeByHostEvent());
+            //                           return state is LoadListImgChallenge
+            //                               ? ChallengeTab(
+            //                                   listImg: state.listChallenge)
+            //                               : const ChallengeTab(listImg: []);
+            //                         },
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 )
+            //               ],
+            //             ),
+            //           ),
+            //         ),
+            //         // bottomNavigationBar: isAdLoaded
+            //         //     ? SizedBox(
+            //         //         height: bannerAd.size.height.toDouble(),
+            //         //         width: bannerAd.size.width.toDouble(),
+            //         //         child: AdWidget(ad: bannerAd),
+            //         //       )
+            //         //     : const SizedBox(),
+            //       )
+            //     : Center(child: Text('LOADING...'),);
+          },
         ));
   }
 }
@@ -330,8 +570,10 @@ class ImageDialog extends StatelessWidget {
 
 class _SliderView extends StatelessWidget {
   final Function(String)? onItemClick;
+  final CheckCollectionData data;
 
-  const _SliderView({Key? key, this.onItemClick}) : super(key: key);
+  const _SliderView({Key? key, this.onItemClick, required this.data})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -356,8 +598,8 @@ class _SliderView extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          const Text(
-            'Nick',
+          Text(
+            data.appName ?? '',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
@@ -368,28 +610,35 @@ class _SliderView extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          ...[
-            ItemTab("Home"),
-            ItemTab("Home1"),
-            ItemTab("Home2"),
-            ItemTab("Home3"),
-            ItemTab("Home4"),
-            ItemTab("Home5"),
-            ItemTab("Home5"),
-            ItemTab("Home5"),
-            ItemTab("Home5"),
-            ItemTab("Home5"),
-            ItemTab("Home5"),
-            ItemTab("Home5"),
-            ItemTab("Home5"),
-            ItemTab("Home5"),
-            ItemTab("Home5"),
-          ]
-              .map((e) => _SliderItem(
-                    title: e.title,
-                    onTap: onItemClick,
-                  ))
-              .toList(),
+          if (data.collection != null && data.collection!.isNotEmpty)
+            ...data.collection!
+                .map((e) => _SliderItem(
+                      title: e.nameCollection,
+                      onTap: onItemClick,
+                    ))
+                .toList(),
+          // ...[
+          //   ItemTab("Home"),
+          //   ItemTab("Home1"),
+          //   ItemTab("Home2"),
+          //   ItemTab("Home3"),
+          //   ItemTab("Home4"),
+          //   ItemTab("Home5"),
+          //   ItemTab("Home5"),
+          //   ItemTab("Home5"),
+          //   ItemTab("Home5"),
+          //   ItemTab("Home5"),
+          //   ItemTab("Home5"),
+          //   ItemTab("Home5"),
+          //   ItemTab("Home5"),
+          //   ItemTab("Home5"),
+          //   ItemTab("Home5"),
+          // ]
+          //     .map((e) => _SliderItem(
+          //           title: e.title,
+          //           onTap: onItemClick,
+          //         ))
+          //     .toList(),
           // ...[
           //   Menu(Icons.home, 'Home'),
           //   Menu(Icons.add_circle, 'Add Post'),
@@ -419,11 +668,10 @@ class _SliderItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(title,
-          style: const TextStyle(
-              color: Colors.white, fontFamily: 'BalsamiqSans_Regular')),
-      onTap: ()=>onTap?.call(title)
-    );
+        title: Text(title,
+            style: const TextStyle(
+                color: Colors.white, fontFamily: 'BalsamiqSans_Regular')),
+        onTap: () => onTap?.call(title));
   }
 }
 

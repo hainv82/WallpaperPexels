@@ -1,4 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:z_core/pexels/model/res/base_data.model.dart';
+import 'package:z_core/pexels/model/res/check_collection_data.model.dart';
+import 'package:z_core/pexels/model/res/collection.model.dart';
 
 abstract class PixelState extends Equatable {
   const PixelState();
@@ -21,13 +24,23 @@ class LoadListImgTrend extends PixelState {
   List<Object?> get props => [listTrend];
 }
 
+class CheckCollectionState extends PixelState{
+  final String? appName;
+  final List<Collection>? listCollection;
+
+  const CheckCollectionState({this.appName, this.listCollection});
+
+  @override
+  List<Object?> get props => [appName, listCollection];
+}
+
 class LoadListImgTop extends PixelState {
   final List<String>? listTop;
 
   const LoadListImgTop({this.listTop});
 
   @override
-  List<Object?> get prop => [listTop];
+  List<Object?> get props => [listTop];
 }
 
 class LoadListImgDiscover extends PixelState {
@@ -36,7 +49,7 @@ class LoadListImgDiscover extends PixelState {
   const LoadListImgDiscover({this.listDiscover});
 
   @override
-  List<Object?> get prop => [listDiscover];
+  List<Object?> get props => [listDiscover];
 }
 
 class LoadListImgChallenge extends PixelState {
@@ -45,7 +58,7 @@ class LoadListImgChallenge extends PixelState {
   const LoadListImgChallenge({this.listChallenge});
 
   @override
-  List<Object?> get prop => [listChallenge];
+  List<Object?> get props => [listChallenge];
 }
 
 class TitleState extends PixelState {
@@ -55,6 +68,15 @@ class TitleState extends PixelState {
 
   @override
   List<Object?> get props => [title];
+}
+
+class GetBaseDataState extends PixelState{
+  final BaseData baseDataState;
+
+  const GetBaseDataState({required this.baseDataState});
+
+  @override
+  List<Object?> get props => [baseDataState];
 }
 
 // part 'pixel_state.g.dart';
