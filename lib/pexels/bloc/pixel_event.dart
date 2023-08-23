@@ -51,3 +51,9 @@ class GetBaseDataEvent extends PixelEvent{
   GetBaseDataEvent();
 }
 
+class GetListUriCollectionEvent extends PixelState{
+  final String uri;
+
+  const GetListUriCollectionEvent({required this.uri});
+}
+

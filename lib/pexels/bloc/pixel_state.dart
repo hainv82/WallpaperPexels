@@ -79,6 +79,12 @@ class GetBaseDataState extends PixelState{
   List<Object?> get props => [baseDataState];
 }
 
+class DataViewState extends PixelState{
+  final List<String>? listData;
+
+  const DataViewState({this.listData});
+}
+
 // part 'pixel_state.g.dart';
 
 // @CopyWith()

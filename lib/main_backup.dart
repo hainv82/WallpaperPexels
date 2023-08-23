@@ -15,19 +15,19 @@ import 'package:z_core/pexels/view/popular_tab.dart';
 import 'package:z_core/pexels/view/top_tab.dart';
 import 'package:z_core/pexels/view/trend_tab.dart';
 
-class MainContent extends StatelessWidget {
-  const MainContent({Key? key}) : super(key: key);
+class MainBackup extends StatelessWidget {
+  const MainBackup({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => BlocProvider<PixelBloc>(
-        create: (context) {
-          final initialState = PixelInitial();
-          // context.read<PixelBloc>().add(GetTrendByHostEvent());
+    create: (context) {
+      final initialState = PixelInitial();
+      // context.read<PixelBloc>().add(GetTrendByHostEvent());
 
-          return PixelBloc(initialState);
-        },
-        child: const MaterialApp(home: HomeContent()),
-      );
+      return PixelBloc(initialState);
+    },
+    child: const MaterialApp(home: HomeContent()),
+  );
 }
 
 class HomeContent extends StatefulWidget {
@@ -89,7 +89,7 @@ class _HomeContentState extends State<HomeContent>
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final GlobalKey<SliderDrawerState> _sliderDrawerKey =
-        GlobalKey<SliderDrawerState>();
+    GlobalKey<SliderDrawerState>();
     final double itemWidth = size.width / 3;
     final double itemHeight = size.width / 2;
     final listTitle = ["Home", "Trend", "Top", "Discover"];
@@ -107,7 +107,7 @@ class _HomeContentState extends State<HomeContent>
         },
         child: BlocBuilder<PixelBloc, PixelState>(
           buildWhen: (previous, current) =>
-              previous != current && current is CheckCollectionState,
+          previous != current && current is CheckCollectionState,
           builder: (mContext, state) {
             // mContext.read<PixelBloc>().add(CheckCollectionEvent());
             // var name = state is CheckCollectionState ?state.appName:'nullName';
@@ -130,7 +130,7 @@ class _HomeContentState extends State<HomeContent>
                     drawerIconColor: Colors.white,
                   ),
                   slider: _SliderView(
-                    onItemClick: (title,uri) {
+                    onItemClick: (title) {
                       _sliderDrawerKey.currentState!.closeSlider();
                       log('===title: $title');
                       // setState(() {
@@ -141,22 +141,99 @@ class _HomeContentState extends State<HomeContent>
                   ),
                   child: Container(
                     color: Colors.black87,
-                    child: BlocBuilder<PixelBloc, PixelState>(
-                      buildWhen: (previous, current) =>
-                      previous != current &&
-                          current is LoadListImgTrend,
-                      builder: (mContext, state) {
-                        // mBloc.add(GetTrendByHostEvent());
-                        // mContext.read<PixelBloc>().add(GetBaseDataEvent());
-                        mContext
-                            .read<PixelBloc>()
-                            .add(GetTrendByHostEvent());
-                        // return Text("aaaa", style: TextStyle(color: Colors.white),);
-                        return state is LoadListImgTrend
-                            ? TrendTab(listImg: state.listTrend)
-                            : const TrendTab(listImg: []);
-                      },
-                    )
+                    child: Column(
+                      children: [
+                        TabBar(
+                          controller: _tabController,
+                          // padding: EdgeInsets.symmetric(vertical: 8),
+                          indicatorColor: Colors.white,
+                          overlayColor:
+                          MaterialStateProperty.resolveWith<Color?>(
+                                (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.hovered)) {
+                                return Colors.amberAccent; //<-- SEE HERE
+                              }
+                              return null;
+                            },
+                          ),
+                          tabs: const [
+                            Tab(icon: Icon(Icons.home)),
+                            Tab(icon: Icon(Icons.vertical_align_top)),
+                            Tab(icon: Icon(Icons.access_time_filled)),
+                            Tab(icon: Icon(Icons.fireplace)),
+                          ],
+                          labelColor: Colors.white,
+                          unselectedLabelColor: Colors.blueGrey,
+                        ),
+                        Expanded(
+                          child: TabBarView(
+                            controller: _tabController,
+                            children: [
+                              BlocBuilder<PixelBloc, PixelState>(
+                                buildWhen: (previous, current) =>
+                                previous != current &&
+                                    current is LoadListImgTrend,
+                                builder: (mContext, state) {
+                                  // mBloc.add(GetTrendByHostEvent());
+                                  // mContext.read<PixelBloc>().add(GetBaseDataEvent());
+                                  mContext
+                                      .read<PixelBloc>()
+                                      .add(GetTrendByHostEvent());
+                                  // return Text("aaaa", style: TextStyle(color: Colors.white),);
+                                  return state is LoadListImgTrend
+                                      ? TrendTab(listImg: state.listTrend)
+                                      : const TrendTab(listImg: []);
+                                },
+                              ),
+                              BlocBuilder<PixelBloc, PixelState>(
+                                buildWhen: (previous, current) =>
+                                previous != current &&
+                                    current is LoadListImgDiscover,
+                                builder: (mContext, state) {
+                                  mContext
+                                      .read<PixelBloc>()
+                                      .add(GetDiscoverByHostEvent());
+                                  return state is LoadListImgDiscover
+                                      ? DiscoverTab(
+                                    listImg: state.listDiscover,
+                                  )
+                                      : const DiscoverTab(listImg: []);
+                                },
+                              ),
+                              BlocBuilder<PixelBloc, PixelState>(
+                                buildWhen: (previous, current) =>
+                                previous != current &&
+                                    current is LoadListImgTop,
+                                builder: (mContext, state) {
+                                  mContext
+                                      .read<PixelBloc>()
+                                      .add(GetTopByHostEvent());
+                                  return state is LoadListImgTop
+                                      ? TopTab(
+                                    listImg: state.listTop,
+                                  )
+                                      : const TopTab(listImg: []);
+                                },
+                              ),
+                              BlocBuilder<PixelBloc, PixelState>(
+                                buildWhen: (previous, current) =>
+                                previous != current &&
+                                    current is LoadListImgChallenge,
+                                builder: (mContext, state) {
+                                  mContext
+                                      .read<PixelBloc>()
+                                      .add(GetChallengeByHostEvent());
+                                  return state is LoadListImgChallenge
+                                      ? ChallengeTab(
+                                      listImg: state.listChallenge)
+                                      : const ChallengeTab(listImg: []);
+                                },
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 // bottomNavigationBar: isAdLoaded
@@ -199,7 +276,7 @@ class ImageDialog extends StatelessWidget {
 }
 
 class _SliderView extends StatelessWidget {
-  final Function(String, String)? onItemClick;
+  final Function(String)? onItemClick;
   final CheckCollectionData data;
 
   const _SliderView({Key? key, this.onItemClick, required this.data})
@@ -221,7 +298,7 @@ class _SliderView extends StatelessWidget {
             child: CircleAvatar(
               radius: 60,
               backgroundImage: Image.network(
-                      'https://i.pinimg.com/564x/a7/f7/2e/a7f72efc911fd92c5457df329f89e251.jpg')
+                  'https://i.pinimg.com/564x/a7/f7/2e/a7f72efc911fd92c5457df329f89e251.jpg')
                   .image,
             ),
           ),
@@ -243,10 +320,9 @@ class _SliderView extends StatelessWidget {
           if (data.collection != null && data.collection!.isNotEmpty)
             ...data.collection!
                 .map((e) => _SliderItem(
-                      title: e.nameCollection,
-                      uri: e.uriCollection,
-                      onTap: onItemClick,
-                    ))
+              title: e.nameCollection,
+              onTap: onItemClick,
+            ))
                 .toList(),
         ],
       ),
@@ -255,10 +331,10 @@ class _SliderView extends StatelessWidget {
 }
 
 class _SliderItem extends StatelessWidget {
-  final String title, uri;
-  final Function(String, String)? onTap;
+  final String title;
+  final Function(String)? onTap;
 
-  const _SliderItem({Key? key, required this.title, required this.uri, required this.onTap})
+  const _SliderItem({Key? key, required this.title, required this.onTap})
       : super(key: key);
 
   @override
@@ -267,7 +343,7 @@ class _SliderItem extends StatelessWidget {
         title: Text(title,
             style: const TextStyle(
                 color: Colors.white, fontFamily: 'BalsamiqSans_Regular')),
-        onTap: () => onTap?.call(title, uri));
+        onTap: () => onTap?.call(title));
   }
 }
 
@@ -291,9 +367,9 @@ class _SliderMenuItem extends StatelessWidget {
 
   const _SliderMenuItem(
       {Key? key,
-      required this.title,
-      required this.iconData,
-      required this.onTap})
+        required this.title,
+        required this.iconData,
+        required this.onTap})
       : super(key: key);
 
   @override
